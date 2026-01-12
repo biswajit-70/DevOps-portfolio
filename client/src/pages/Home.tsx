@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { 
   Download, 
   Mail, 
@@ -29,7 +29,7 @@ import {
   Package,
   Database
 } from 'lucide-react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import profileImage from '@assets/profile.jpeg';
 import resumePDF from '@assets/Biswajitpattanaik_Resume.pdf';
 
@@ -207,6 +207,200 @@ const containerVariants = {
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 }
+};
+
+// Animated Photo Frame Component
+const AnimatedPhotoFrame = ({ profileImage }: { profileImage: string }) => {
+  const [currentPhase, setCurrentPhase] = useState<'tools' | 'infinity' | 'photo'>('tools');
+  const devopsTools = [
+    { icon: Container, name: 'Docker', color: '#2496ED' },
+    { icon: Cloud, name: 'AWS', color: '#FF9900' },
+    { icon: GitBranch, name: 'Jenkins', color: '#D24939' },
+    { icon: Terminal, name: 'Kubernetes', color: '#326CE5' },
+    { icon: Server, name: 'Terraform', color: '#7B42BC' },
+    { icon: Shield, name: 'Ansible', color: '#EE0000' },
+  ];
+
+  useEffect(() => {
+    const sequence = async () => {
+      // Show tools for 3 seconds
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      setCurrentPhase('infinity');
+      
+      // Show infinity logo for 2 seconds
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      setCurrentPhase('photo');
+      
+      // Show photo for 4 seconds then restart
+      await new Promise(resolve => setTimeout(resolve, 4000));
+      setCurrentPhase('tools');
+    };
+
+    sequence();
+    const interval = setInterval(sequence, 9000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="relative w-full aspect-square max-w-md mx-auto rounded-3xl overflow-hidden border-2 border-primary/20">
+      <AnimatePresence mode="wait">
+        {currentPhase === 'tools' && (
+          <motion.div
+            key="tools"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0 bg-gradient-to-br from-primary/20 via-card to-cyan-500/20 flex items-center justify-center"
+          >
+            <div className="grid grid-cols-3 gap-6 p-8">
+              {devopsTools.map((tool, index) => (
+                <motion.div
+                  key={tool.name}
+                  initial={{ opacity: 0, scale: 0, rotate: -180 }}
+                  animate={{ 
+                    opacity: 1, 
+                    scale: 1, 
+                    rotate: 0,
+                    y: [0, -10, 0]
+                  }}
+                  transition={{
+                    delay: index * 0.2,
+                    duration: 0.6,
+                    y: {
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: index * 0.2
+                    }
+                  }}
+                  className="flex flex-col items-center justify-center p-4 rounded-2xl glass"
+                  style={{
+                    boxShadow: `0 0 20px ${tool.color}40`
+                  }}
+                >
+                  <tool.icon 
+                    className="w-12 h-12 mb-2" 
+                    style={{ color: tool.color }}
+                  />
+                  <span className="text-xs font-medium text-center" style={{ color: tool.color }}>
+                    {tool.name}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        {currentPhase === 'infinity' && (
+          <motion.div
+            key="infinity"
+            initial={{ opacity: 0, scale: 0.5, rotate: -90 }}
+            animate={{ 
+              opacity: 1, 
+              scale: 1, 
+              rotate: 0
+            }}
+            exit={{ opacity: 0, scale: 0.5, rotate: 90 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="absolute inset-0 bg-gradient-to-br from-primary/30 via-purple-500/20 to-cyan-500/30 flex items-center justify-center"
+          >
+            <motion.div
+              animate={{
+                rotate: [0, 360],
+                scale: [1, 1.1, 1]
+              }}
+              transition={{
+                rotate: { duration: 3, repeat: Infinity, ease: "linear" },
+                scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+              }}
+              className="relative"
+            >
+              {/* DevOps Infinity Symbol */}
+              <svg
+                width="200"
+                height="120"
+                viewBox="0 0 200 120"
+                className="drop-shadow-2xl"
+              >
+                <motion.path
+                  d="M 50 60 Q 25 20, 50 20 T 100 60 Q 100 100, 75 100 T 50 60 Z M 100 60 Q 125 20, 150 20 T 150 100 Q 125 100, 100 60 Z"
+                  fill="none"
+                  stroke="url(#gradient)"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 2, ease: "easeInOut", repeat: Infinity }}
+                />
+                <defs>
+                  <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#20b4b4" />
+                    <stop offset="50%" stopColor="#a855f7" />
+                    <stop offset="100%" stopColor="#22d3ee" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 1, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <span className="text-4xl font-bold text-gradient">DevOps</span>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        )}
+
+        {currentPhase === 'photo' && (
+          <motion.div
+            key="photo"
+            initial={{ opacity: 0, scale: 1.2 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.6 }}
+            className="absolute inset-0"
+          >
+            <motion.img
+              src={profileImage}
+              alt="Biswajit Pattnayak"
+              className="w-full h-full object-cover object-top"
+              animate={{
+                filter: [
+                  'brightness(1) contrast(1)',
+                  'brightness(1.1) contrast(1.05)',
+                  'brightness(1) contrast(1)'
+                ]
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Animated Corner Indicators */}
+      <motion.div
+        className="absolute top-4 right-4 flex gap-2"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+      >
+        {['tools', 'infinity', 'photo'].map((phase, idx) => (
+          <motion.div
+            key={phase}
+            className="w-2 h-2 rounded-full"
+            animate={{
+              backgroundColor: currentPhase === phase ? '#20b4b4' : '#ffffff40',
+              scale: currentPhase === phase ? 1.5 : 1
+            }}
+            transition={{ duration: 0.3 }}
+          />
+        ))}
+      </motion.div>
+    </div>
+  );
 };
 
 export default function Home() {
@@ -599,13 +793,7 @@ export default function Home() {
           >
             <div className="lg:w-1/2">
               <div className="relative">
-                <div className="w-full aspect-square max-w-md mx-auto rounded-3xl overflow-hidden border-2 border-primary/20">
-                  <img 
-                    src={profileImage} 
-                    alt="Biswajit Pattnayak" 
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
+                <AnimatedPhotoFrame profileImage={profileImage} />
                 <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-to-r from-primary to-cyan-400 rounded-2xl -z-10" />
                 <div className="absolute -top-6 -left-6 w-24 h-24 border-2 border-primary/30 rounded-2xl -z-10" />
               </div>
