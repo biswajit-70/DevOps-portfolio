@@ -359,164 +359,222 @@ const AnimatedPhotoFrame = ({ profileImage }: { profileImage: string }) => {
         {currentPhase === 'infinity' && (
           <motion.div
             key="infinity"
-            initial={{ opacity: 0, scale: 0.5, rotateX: -90 }}
-            animate={{ 
-              opacity: 1, 
-              scale: 1, 
-              rotateX: 0
-            }}
-            exit={{ opacity: 0, scale: 0.5, rotateX: 90 }}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
             transition={{ duration: 0.9, ease: "easeOut" }}
-            className="absolute inset-0 bg-gradient-to-br from-slate-900 via-primary/20 to-purple-900/40 flex items-center justify-center overflow-hidden"
+            className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900/30 to-purple-900/40 flex items-center justify-center overflow-hidden"
           >
-            {/* Animated circuit board background */}
-            <motion.div 
-              className="absolute inset-0 opacity-20"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-            >
-              {[...Array(5)].map((_, i) => (
+            {/* Animated tech background */}
+            <div className="absolute inset-0 opacity-10">
+              {[...Array(30)].map((_, i) => (
                 <motion.div
                   key={i}
-                  className="absolute border border-primary/30"
+                  className="absolute w-1 h-1 bg-cyan-400 rounded-full"
                   style={{
-                    width: `${100 + i * 50}px`,
-                    height: `${100 + i * 50}px`,
-                    left: '50%',
-                    top: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    borderRadius: '50%'
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
                   }}
                   animate={{
-                    scale: [1, 1.1, 1],
-                    opacity: [0.3, 0.6, 0.3]
+                    scale: [0, 1, 0],
+                    opacity: [0, 1, 0]
                   }}
                   transition={{
-                    duration: 3,
+                    duration: 2 + Math.random() * 2,
                     repeat: Infinity,
-                    delay: i * 0.2
+                    delay: Math.random() * 3
                   }}
                 />
               ))}
-            </motion.div>
+            </div>
 
-            <motion.div
-              animate={{
-                scale: [1, 1.05, 1]
-              }}
-              transition={{
-                duration: 2.5,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="relative z-10"
-            >
-              {/* Enhanced DevOps Infinity Symbol */}
+            <div className="relative">
+              {/* DevOps Infinity Symbol with proper shape */}
               <svg
-                width="280"
-                height="160"
-                viewBox="0 0 280 160"
-                className="drop-shadow-2xl filter"
+                width="400"
+                height="200"
+                viewBox="0 0 400 200"
+                className="drop-shadow-2xl"
               >
+                {/* Glow effect layers */}
+                <defs>
+                  <filter id="glow">
+                    <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                  <linearGradient id="infinityGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#06b6d4" />
+                    <stop offset="25%" stopColor="#3b82f6" />
+                    <stop offset="50%" stopColor="#8b5cf6" />
+                    <stop offset="75%" stopColor="#3b82f6" />
+                    <stop offset="100%" stopColor="#06b6d4" />
+                  </linearGradient>
+                </defs>
+                
                 {/* Outer glow */}
                 <motion.path
-                  d="M 70 80 C 70 40, 35 28, 70 28 C 105 28, 105 60, 140 80 C 140 120, 105 132, 70 132 C 35 132, 70 100, 70 80 Z M 140 80 C 175 60, 175 28, 210 28 C 245 28, 210 40, 210 80 C 210 100, 245 132, 210 132 C 175 132, 175 120, 140 80 Z"
+                  d="M 80 100 C 80 50, 50 30, 80 30 C 120 30, 140 70, 200 100 C 260 130, 280 170, 320 170 C 350 170, 320 150, 320 100 C 320 50, 350 30, 320 30 C 280 30, 260 70, 200 100 C 140 130, 120 170, 80 170 C 50 170, 80 150, 80 100 Z"
                   fill="none"
-                  stroke="url(#outerGlow)"
-                  strokeWidth="8"
+                  stroke="url(#infinityGradient)"
+                  strokeWidth="12"
                   strokeLinecap="round"
                   opacity="0.3"
-                  filter="blur(4px)"
+                  filter="blur(8px)"
                 />
                 
-                {/* Main infinity path with animation */}
+                {/* Main infinity path - animated stroke */}
                 <motion.path
-                  d="M 70 80 C 70 40, 35 28, 70 28 C 105 28, 105 60, 140 80 C 140 120, 105 132, 70 132 C 35 132, 70 100, 70 80 Z M 140 80 C 175 60, 175 28, 210 28 C 245 28, 210 40, 210 80 C 210 100, 245 132, 210 132 C 175 132, 175 120, 140 80 Z"
+                  d="M 80 100 C 80 50, 50 30, 80 30 C 120 30, 140 70, 200 100 C 260 130, 280 170, 320 170 C 350 170, 320 150, 320 100 C 320 50, 350 30, 320 30 C 280 30, 260 70, 200 100 C 140 130, 120 170, 80 170 C 50 170, 80 150, 80 100 Z"
                   fill="none"
-                  stroke="url(#mainGradient)"
-                  strokeWidth="5"
+                  stroke="url(#infinityGradient)"
+                  strokeWidth="8"
                   strokeLinecap="round"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ 
-                    pathLength: [0, 1, 1, 0],
-                    opacity: [0, 1, 1, 0]
-                  }}
-                  transition={{ 
-                    duration: 3, 
-                    ease: "easeInOut", 
-                    repeat: Infinity,
-                    repeatDelay: 0.5
-                  }}
+                  strokeLinejoin="round"
+                  filter="url(#glow)"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: [0, 1] }}
+                  transition={{ duration: 3, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.5 }}
                 />
                 
                 {/* Inner highlight */}
                 <motion.path
-                  d="M 70 80 C 70 40, 35 28, 70 28 C 105 28, 105 60, 140 80 C 140 120, 105 132, 70 132 C 35 132, 70 100, 70 80 Z M 140 80 C 175 60, 175 28, 210 28 C 245 28, 210 40, 210 80 C 210 100, 245 132, 210 132 C 175 132, 175 120, 140 80 Z"
+                  d="M 80 100 C 80 50, 50 30, 80 30 C 120 30, 140 70, 200 100 C 260 130, 280 170, 320 170 C 350 170, 320 150, 320 100 C 320 50, 350 30, 320 30 C 280 30, 260 70, 200 100 C 140 130, 120 170, 80 170 C 50 170, 80 150, 80 100 Z"
                   fill="none"
                   stroke="#ffffff"
-                  strokeWidth="2"
+                  strokeWidth="3"
                   strokeLinecap="round"
-                  opacity="0.5"
+                  opacity="0.6"
                   initial={{ pathLength: 0 }}
                   animate={{ pathLength: [0, 1] }}
-                  transition={{ duration: 2, ease: "easeInOut", repeat: Infinity }}
+                  transition={{ duration: 2.5, ease: "easeInOut", repeat: Infinity }}
                 />
-                
-                <defs>
-                  <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#20b4b4" />
-                    <stop offset="33%" stopColor="#22d3ee" />
-                    <stop offset="66%" stopColor="#a855f7" />
-                    <stop offset="100%" stopColor="#20b4b4" />
-                  </linearGradient>
-                  <linearGradient id="outerGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#20b4b4" />
-                    <stop offset="100%" stopColor="#a855f7" />
-                  </linearGradient>
-                </defs>
               </svg>
               
-              {/* Animated DevOps text */}
+              {/* CI/CD Lifecycle stages around the infinity */}
+              {[
+                { label: 'PLAN', angle: 0, color: '#06b6d4', icon: '📋' },
+                { label: 'CODE', angle: 51.4, color: '#3b82f6', icon: '💻' },
+                { label: 'BUILD', angle: 102.8, color: '#8b5cf6', icon: '🔨' },
+                { label: 'TEST', angle: 154.2, color: '#ec4899', icon: '🧪' },
+                { label: 'RELEASE', angle: 205.6, color: '#f97316', icon: '📦' },
+                { label: 'DEPLOY', angle: 257, color: '#eab308', icon: '🚀' },
+                { label: 'OPERATE', angle: 308.4, color: '#22c55e', icon: '⚙️' },
+              ].map((stage, index) => {
+                const radius = 180;
+                const centerX = 200;
+                const centerY = 100;
+                const radian = (stage.angle * Math.PI) / 180;
+                const x = centerX + radius * Math.cos(radian);
+                const y = centerY + radius * Math.sin(radian);
+                
+                return (
+                  <motion.div
+                    key={stage.label}
+                    className="absolute"
+                    style={{
+                      left: `${x}px`,
+                      top: `${y}px`,
+                      transform: 'translate(-50%, -50%)'
+                    }}
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ 
+                      scale: [0, 1.2, 1],
+                      opacity: [0, 1, 1]
+                    }}
+                    transition={{
+                      delay: index * 0.2,
+                      duration: 0.6,
+                      repeat: Infinity,
+                      repeatDelay: 3
+                    }}
+                  >
+                    {/* Stage badge */}
+                    <motion.div
+                      className="relative"
+                      animate={{ 
+                        y: [-5, 5, -5],
+                      }}
+                      transition={{
+                        duration: 2 + index * 0.2,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    >
+                      {/* Glow */}
+                      <div 
+                        className="absolute inset-0 rounded-full blur-lg opacity-50"
+                        style={{ backgroundColor: stage.color }}
+                      />
+                      
+                      {/* Badge */}
+                      <div 
+                        className="relative px-3 py-1.5 rounded-full backdrop-blur-sm border-2 flex items-center gap-1.5"
+                        style={{
+                          backgroundColor: `${stage.color}20`,
+                          borderColor: stage.color
+                        }}
+                      >
+                        <span className="text-sm">{stage.icon}</span>
+                        <span 
+                          className="text-xs font-bold uppercase tracking-wider whitespace-nowrap"
+                          style={{ color: stage.color }}
+                        >
+                          {stage.label}
+                        </span>
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                );
+              })}
+              
+              {/* Center DevOps text */}
               <motion.div
-                className="absolute inset-0 flex flex-col items-center justify-center"
-                initial={{ opacity: 0, y: 20 }}
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center"
+                initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ 
-                  opacity: [0, 1, 1, 0],
-                  y: [20, 0, 0, -20]
+                  opacity: [0, 1, 1, 1, 0],
+                  scale: [0.5, 1.1, 1, 1, 0.5]
                 }}
-                transition={{ duration: 3, repeat: Infinity, repeatDelay: 0.5 }}
+                transition={{ duration: 4, repeat: Infinity, repeatDelay: 0.5 }}
               >
-                <span className="text-5xl font-bold bg-gradient-to-r from-primary via-purple-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-2xl">DevOps</span>
-                <motion.span 
-                  className="text-sm text-primary/80 mt-2 font-mono"
-                  animate={{ opacity: [0, 1, 0] }}
+                <h3 className="text-6xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent drop-shadow-2xl mb-2">
+                  DevOps
+                </h3>
+                <motion.p 
+                  className="text-sm text-cyan-400 font-mono tracking-widest"
+                  animate={{ opacity: [0.5, 1, 0.5] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  Continuous Excellence
-                </motion.span>
+                  CONTINUOUS LIFECYCLE
+                </motion.p>
               </motion.div>
-            </motion.div>
+            </div>
             
-            {/* Orbiting particles */}
-            {[...Array(12)].map((_, i) => (
+            {/* Flowing particles along the path */}
+            {[...Array(8)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute w-2 h-2 rounded-full"
+                className="absolute w-3 h-3 rounded-full"
                 style={{
-                  background: i % 2 === 0 ? '#20b4b4' : '#a855f7',
+                  background: i % 2 === 0 ? '#06b6d4' : '#8b5cf6',
+                  boxShadow: `0 0 10px ${i % 2 === 0 ? '#06b6d4' : '#8b5cf6'}`,
                   left: '50%',
                   top: '50%',
                 }}
                 animate={{
-                  x: Math.cos((i / 12) * Math.PI * 2) * 150,
-                  y: Math.sin((i / 12) * Math.PI * 2) * 100,
-                  scale: [1, 1.5, 1],
-                  opacity: [0.5, 1, 0.5]
+                  x: [0, 100, 200, 300, 200, 100, 0, -100, -200, -100, 0],
+                  y: [0, -50, -30, 0, 70, 70, 0, 70, -30, -50, 0],
+                  scale: [1, 1.2, 1, 1.2, 1],
+                  opacity: [0.5, 1, 0.8, 1, 0.5]
                 }}
                 transition={{
-                  duration: 3,
+                  duration: 6,
                   repeat: Infinity,
-                  delay: i * 0.1
+                  delay: i * 0.75,
+                  ease: "easeInOut"
                 }}
               />
             ))}
@@ -1053,44 +1111,125 @@ export default function Home() {
         </motion.div>
       </section>
 
-      <section className="py-12 border-y border-border bg-card/30 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4">
-          <motion.p 
-            className="text-center text-sm text-muted-foreground mb-8 font-medium uppercase tracking-wider"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+      <section className="py-16 border-y border-border bg-gradient-to-b from-card/50 via-card/30 to-background relative overflow-hidden">
+        {/* Subtle animated background */}
+        <motion.div 
+          className="absolute inset-0 opacity-5"
+          animate={{ backgroundPosition: ['0px 0px', '50px 50px'] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          style={{
+            backgroundImage: 'linear-gradient(rgba(32, 180, 180, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(32, 180, 180, 0.2) 1px, transparent 1px)',
+            backgroundSize: '50px 50px'
+          }}
+        />
+        
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <motion.div
+            className="text-center mb-10"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            Technologies & Tools I Work With
-          </motion.p>
-          <div className="flex gap-8 animate-scroll">
-            {[...tools, ...tools].map((tool, index) => (
-              <div 
-                key={`${tool.name}-${index}`}
-                className="flex items-center gap-3 px-6 py-3 bg-card rounded-xl border border-border whitespace-nowrap hover:border-primary/50 transition-colors"
+            <span className="text-primary font-mono text-sm mb-2 block uppercase tracking-widest">// Tech Stack</span>
+            <h2 className="text-xl md:text-2xl font-bold">
+              Technologies & <span className="text-gradient">Tools I Work With</span>
+            </h2>
+          </motion.div>
+          
+          {/* Horizontal scrolling container */}
+          <div className="relative">
+            {/* Gradient overlays for fade effect */}
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+            
+            {/* Scrolling tools */}
+            <div className="overflow-hidden">
+              <motion.div 
+                className="flex gap-4 py-2"
+                animate={{ x: [0, -1200] }}
+                transition={{ 
+                  duration: 30, 
+                  repeat: Infinity, 
+                  ease: "linear" 
+                }}
               >
-                <div 
-                  className="w-3 h-3 rounded-full"
-                  style={{ backgroundColor: tool.color }}
-                />
-                <span className="font-medium text-sm">{tool.name}</span>
-              </div>
-            ))}
+                {/* Duplicate tools array for seamless loop */}
+                {[...tools, ...tools].map((tool, index) => (
+                  <motion.div
+                    key={`${tool.name}-${index}`}
+                    className="relative group flex-shrink-0"
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    style={{ width: '100px' }}
+                  >
+                    {/* Glow effect on hover */}
+                    <div 
+                      className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg"
+                      style={{ backgroundColor: `${tool.color}40` }}
+                    />
+                    
+                    {/* Tool card */}
+                    <div className="relative glass rounded-2xl p-3 border border-border group-hover:border-primary/50 transition-all duration-300 flex flex-col items-center justify-center h-[100px]">
+                      {/* Icon container */}
+                      <motion.div
+                        className="w-12 h-12 rounded-xl mb-2 flex items-center justify-center relative"
+                        style={{ backgroundColor: `${tool.color}15` }}
+                        whileHover={{ rotate: [0, -10, 10, -10, 0] }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        {/* Render appropriate icon */}
+                        {tool.name === 'Docker' && <Container className="w-7 h-7" style={{ color: tool.color }} />}
+                        {tool.name === 'Kubernetes' && <Database className="w-7 h-7" style={{ color: tool.color }} />}
+                        {tool.name === 'AWS' && <Cloud className="w-7 h-7" style={{ color: tool.color }} />}
+                        {tool.name === 'Jenkins' && <GitBranch className="w-7 h-7" style={{ color: tool.color }} />}
+                        {tool.name === 'Terraform' && <Server className="w-7 h-7" style={{ color: tool.color }} />}
+                        {tool.name === 'Ansible' && <Shield className="w-7 h-7" style={{ color: tool.color }} />}
+                        {tool.name === 'GitHub Actions' && <Github className="w-7 h-7" style={{ color: tool.color }} />}
+                        {tool.name === 'Maven' && <Package className="w-7 h-7" style={{ color: tool.color }} />}
+                        {tool.name === 'Nexus' && <Layers className="w-7 h-7" style={{ color: tool.color }} />}
+                        {tool.name === 'Linux' && <Terminal className="w-7 h-7" style={{ color: tool.color }} />}
+                        {tool.name === 'Git' && <GitBranch className="w-7 h-7" style={{ color: tool.color }} />}
+                        {tool.name === 'Bash' && <Code2 className="w-7 h-7" style={{ color: tool.color }} />}
+                        
+                        {/* Pulsing indicator */}
+                        <motion.div
+                          className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full"
+                          style={{ backgroundColor: tool.color }}
+                          animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
+                          transition={{ duration: 2, repeat: Infinity, delay: index * 0.1 }}
+                        />
+                      </motion.div>
+                      
+                      {/* Tool name */}
+                      <span 
+                        className="text-xs font-semibold text-center leading-tight group-hover:text-primary transition-colors"
+                        style={{ color: tool.color, fontSize: '0.65rem' }}
+                      >
+                        {tool.name}
+                      </span>
+                      
+                      {/* Bottom accent line */}
+                      <div
+                        className="absolute bottom-0 left-0 right-0 h-1 rounded-b-2xl"
+                        style={{ backgroundColor: `${tool.color}60` }}
+                      />
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
           </div>
+          
+          {/* Optional: Hover to pause hint */}
+          <motion.p
+            className="text-center text-xs text-muted-foreground mt-6 font-mono opacity-50"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 0.5 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+          >
+            Hover over any tool to see details
+          </motion.p>
         </div>
-        <style>{`
-          @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-          .animate-scroll {
-            animation: scroll 30s linear infinite;
-            width: fit-content;
-          }
-          .animate-scroll:hover {
-            animation-play-state: paused;
-          }
-        `}</style>
       </section>
 
       <section id="about" className="py-24 relative">
