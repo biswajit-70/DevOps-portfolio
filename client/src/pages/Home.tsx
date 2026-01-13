@@ -1111,123 +1111,139 @@ export default function Home() {
         </motion.div>
       </section>
 
-      <section className="py-16 border-y border-border bg-gradient-to-b from-card/50 via-card/30 to-background relative overflow-hidden">
-        {/* Subtle animated background */}
-        <motion.div 
-          className="absolute inset-0 opacity-5"
-          animate={{ backgroundPosition: ['0px 0px', '50px 50px'] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          style={{
-            backgroundImage: 'linear-gradient(rgba(32, 180, 180, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(32, 180, 180, 0.2) 1px, transparent 1px)',
-            backgroundSize: '50px 50px'
-          }}
-        />
+      <section className="py-20 border-y border-border bg-gradient-to-b from-card/50 via-card/30 to-background relative overflow-hidden">
+        {/* Optimized static background - no animation for performance */}
+        <div className="absolute inset-0 opacity-5" style={{
+          backgroundImage: 'linear-gradient(rgba(32, 180, 180, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(32, 180, 180, 0.2) 1px, transparent 1px)',
+          backgroundSize: '50px 50px'
+        }} />
         
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
-            className="text-center mb-10"
+            className="text-center mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <span className="text-primary font-mono text-sm mb-2 block uppercase tracking-widest">// Tech Stack</span>
-            <h2 className="text-xl md:text-2xl font-bold">
-              Technologies & <span className="text-gradient">Tools I Work With</span>
+            <div className="flex items-center justify-center gap-3 mb-3">
+              <Cloud className="w-6 h-6 text-primary" />
+              <span className="text-primary font-mono text-sm uppercase tracking-widest">Tech Stack</span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">
+              DevOps & <span className="text-gradient">Cloud Technologies</span>
             </h2>
+            <p className="text-muted-foreground text-sm max-w-2xl mx-auto">
+              Industry-leading tools and platforms for continuous delivery
+            </p>
           </motion.div>
           
-          {/* Horizontal scrolling container */}
-          <div className="relative">
-            {/* Gradient overlays for fade effect */}
-            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-            
-            {/* Scrolling tools */}
-            <div className="overflow-hidden">
-              <motion.div 
-                className="flex gap-4 py-2"
-                animate={{ x: [0, -1200] }}
-                transition={{ 
-                  duration: 30, 
-                  repeat: Infinity, 
-                  ease: "linear" 
+          {/* Grid of tool cards - optimized for mobile */}
+          <motion.div 
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-6xl mx-auto"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.05 } // Reduced stagger for performance
+              }
+            }}
+          >
+            {tools.map((tool, index) => (
+              <motion.div
+                key={tool.name}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0 }
                 }}
+                whileHover={{ 
+                  y: -8,
+                  transition: { duration: 0.2 }
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="group relative"
               >
-                {/* Duplicate tools array for seamless loop */}
-                {[...tools, ...tools].map((tool, index) => (
-                  <motion.div
-                    key={`${tool.name}-${index}`}
-                    className="relative group flex-shrink-0"
-                    whileHover={{ scale: 1.05, y: -5 }}
-                    style={{ width: '100px' }}
+                {/* Glow effect on hover - GPU accelerated */}
+                <div 
+                  className="absolute -inset-1 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg"
+                  style={{
+                    backgroundColor: `${tool.color}30`,
+                    willChange: 'opacity' // Optimize for animations
+                  }}
+                />
+                
+                {/* Tool card */}
+                <div 
+                  className="relative glass rounded-2xl p-4 border border-border group-hover:border-primary/50 transition-all duration-300 flex flex-col items-center justify-center aspect-square"
+                  style={{ willChange: 'transform' }}
+                >
+                  {/* Icon container with colored background */}
+                  <div
+                    className="w-16 h-16 rounded-xl mb-3 flex items-center justify-center relative"
+                    style={{
+                      backgroundColor: `${tool.color}15`,
+                      transition: 'transform 0.3s ease'
+                    }}
                   >
-                    {/* Glow effect on hover */}
-                    <div 
-                      className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg"
-                      style={{ backgroundColor: `${tool.color}40` }}
-                    />
+                    {/* Render appropriate icon based on tool name */}
+                    {tool.name === 'Docker' && <Container className="w-10 h-10" style={{ color: tool.color }} />}
+                    {tool.name === 'Kubernetes' && <Database className="w-10 h-10" style={{ color: tool.color }} />}
+                    {tool.name === 'AWS' && <Cloud className="w-10 h-10" style={{ color: tool.color }} />}
+                    {tool.name === 'Jenkins' && <GitBranch className="w-10 h-10" style={{ color: tool.color }} />}
+                    {tool.name === 'Terraform' && <Server className="w-10 h-10" style={{ color: tool.color }} />}
+                    {tool.name === 'Ansible' && <Shield className="w-10 h-10" style={{ color: tool.color }} />}
+                    {tool.name === 'GitHub Actions' && <Github className="w-10 h-10" style={{ color: tool.color }} />}
+                    {tool.name === 'Maven' && <Package className="w-10 h-10" style={{ color: tool.color }} />}
+                    {tool.name === 'Nexus' && <Layers className="w-10 h-10" style={{ color: tool.color }} />}
+                    {tool.name === 'Linux' && <Terminal className="w-10 h-10" style={{ color: tool.color }} />}
+                    {tool.name === 'Git' && <GitBranch className="w-10 h-10" style={{ color: tool.color }} />}
+                    {tool.name === 'Bash' && <Code2 className="w-10 h-10" style={{ color: tool.color }} />}
                     
-                    {/* Tool card */}
-                    <div className="relative glass rounded-2xl p-3 border border-border group-hover:border-primary/50 transition-all duration-300 flex flex-col items-center justify-center h-[100px]">
-                      {/* Icon container */}
-                      <motion.div
-                        className="w-12 h-12 rounded-xl mb-2 flex items-center justify-center relative"
-                        style={{ backgroundColor: `${tool.color}15` }}
-                        whileHover={{ rotate: [0, -10, 10, -10, 0] }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        {/* Render appropriate icon */}
-                        {tool.name === 'Docker' && <Container className="w-7 h-7" style={{ color: tool.color }} />}
-                        {tool.name === 'Kubernetes' && <Database className="w-7 h-7" style={{ color: tool.color }} />}
-                        {tool.name === 'AWS' && <Cloud className="w-7 h-7" style={{ color: tool.color }} />}
-                        {tool.name === 'Jenkins' && <GitBranch className="w-7 h-7" style={{ color: tool.color }} />}
-                        {tool.name === 'Terraform' && <Server className="w-7 h-7" style={{ color: tool.color }} />}
-                        {tool.name === 'Ansible' && <Shield className="w-7 h-7" style={{ color: tool.color }} />}
-                        {tool.name === 'GitHub Actions' && <Github className="w-7 h-7" style={{ color: tool.color }} />}
-                        {tool.name === 'Maven' && <Package className="w-7 h-7" style={{ color: tool.color }} />}
-                        {tool.name === 'Nexus' && <Layers className="w-7 h-7" style={{ color: tool.color }} />}
-                        {tool.name === 'Linux' && <Terminal className="w-7 h-7" style={{ color: tool.color }} />}
-                        {tool.name === 'Git' && <GitBranch className="w-7 h-7" style={{ color: tool.color }} />}
-                        {tool.name === 'Bash' && <Code2 className="w-7 h-7" style={{ color: tool.color }} />}
-                        
-                        {/* Pulsing indicator */}
-                        <motion.div
-                          className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full"
-                          style={{ backgroundColor: tool.color }}
-                          animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
-                          transition={{ duration: 2, repeat: Infinity, delay: index * 0.1 }}
-                        />
-                      </motion.div>
-                      
-                      {/* Tool name */}
-                      <span 
-                        className="text-xs font-semibold text-center leading-tight group-hover:text-primary transition-colors"
-                        style={{ color: tool.color, fontSize: '0.65rem' }}
-                      >
-                        {tool.name}
-                      </span>
-                      
-                      {/* Bottom accent line */}
-                      <div
-                        className="absolute bottom-0 left-0 right-0 h-1 rounded-b-2xl"
-                        style={{ backgroundColor: `${tool.color}60` }}
-                      />
-                    </div>
-                  </motion.div>
-                ))}
+                    {/* Status indicator - no complex animations */}
+                    <div
+                      className="absolute -top-1 -right-1 w-3 h-3 rounded-full"
+                      style={{ 
+                        backgroundColor: tool.color,
+                        boxShadow: `0 0 8px ${tool.color}`
+                      }}
+                    />
+                  </div>
+                  
+                  {/* Tool name */}
+                  <span 
+                    className="text-xs font-semibold text-center group-hover:text-primary transition-colors leading-tight"
+                    style={{ 
+                      color: tool.color,
+                      fontSize: tool.name.length > 10 ? '0.65rem' : '0.75rem'
+                    }}
+                  >
+                    {tool.name}
+                  </span>
+                  
+                  {/* Bottom accent line */}
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-1 rounded-b-2xl transition-all duration-300 scale-x-0 group-hover:scale-x-100"
+                    style={{ 
+                      backgroundColor: tool.color,
+                      transformOrigin: 'center'
+                    }}
+                  />
+                </div>
               </motion.div>
-            </div>
-          </div>
+            ))}
+          </motion.div>
           
-          {/* Optional: Hover to pause hint */}
+          {/* Tooltip hint */}
           <motion.p
-            className="text-center text-xs text-muted-foreground mt-6 font-mono opacity-50"
+            className="text-center text-xs text-muted-foreground mt-8 font-mono opacity-50"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 0.5 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.3 }}
           >
-            Hover over any tool to see details
+            Hover to highlight • Tap for details
           </motion.p>
         </div>
       </section>
