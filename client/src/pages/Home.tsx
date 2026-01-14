@@ -50,18 +50,19 @@ const stats = [
 ];
 
 const tools = [
-  { name: 'Docker', color: '#2496ED' },
-  { name: 'Kubernetes', color: '#326CE5' },
-  { name: 'AWS', color: '#FF9900' },
-  { name: 'Jenkins', color: '#D24939' },
-  { name: 'Terraform', color: '#7B42BC' },
-  { name: 'Ansible', color: '#EE0000' },
-  { name: 'GitHub Actions', color: '#2088FF' },
-  { name: 'Maven', color: '#C71A36' },
-  { name: 'Nexus', color: '#1B9E85' },
-  { name: 'Linux', color: '#FCC624' },
-  { name: 'Git', color: '#F05032' },
-  { name: 'Bash', color: '#4EAA25' },
+  { name: 'Docker', color: '#2496ED', desc: 'Containerizes applications for consistent environments and faster deployments.' },
+  { name: 'Kubernetes', color: '#326CE5', desc: 'Orchestrates containers, ensuring scalability, self-healing, and reliability.' },
+  { name: 'AWS', color: '#FF9900', desc: 'Provides scalable cloud infrastructure for hosting and deployment.' },
+  { name: 'Jenkins', color: '#D24939', desc: 'Automates CI/CD pipelines for faster and reliable software delivery.' },
+  { name: 'Terraform', color: '#7B42BC', desc: 'Infrastructure as Code tool for automated and repeatable cloud setups.' },
+  { name: 'Ansible', color: '#EE0000', desc: 'Automates configuration management and application deployments.' },
+  { name: 'GitHub Actions', color: '#2088FF', desc: 'CI/CD automation directly integrated with GitHub repositories.' },
+  { name: 'Maven', color: '#C71A36', desc: 'Manages Java project builds, dependencies, and lifecycle.' },
+  { name: 'Nexus', color: '#1B9E85', desc: 'Stores and manages build artifacts securely.' },
+  { name: 'Linux', color: '#FCC624', desc: 'Core OS for servers, containers, and cloud environments.' },
+  { name: 'Git', color: '#F05032', desc: 'Version control system for tracking and collaborating on code.' },
+  { name: 'Bash', color: '#4EAA25', desc: 'Shell scripting for automation and server administration.' },
+  { name: 'Python', color: '#3776AB', desc: 'Used for automation, scripting, DevOps tools, and cloud workflows.' },
 ];
 
 const skillCategories = [
@@ -1142,26 +1143,23 @@ export default function Home() {
             className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-6xl mx-auto"
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true }}
             variants={{
               hidden: { opacity: 0 },
               visible: {
                 opacity: 1,
-                transition: { staggerChildren: 0.05 } // Reduced stagger for performance
+                transition: { staggerChildren: 0.05 }
               }
             }}
           >
-            {tools.map((tool, index) => (
+            {tools.map((tool) => (
               <motion.div
                 key={tool.name}
                 variants={{
                   hidden: { opacity: 0, y: 20 },
                   visible: { opacity: 1, y: 0 }
                 }}
-                whileHover={{ 
-                  y: -8,
-                  transition: { duration: 0.2 }
-                }}
+                whileHover={{ y: -8 }}
                 whileTap={{ scale: 0.95 }}
                 className="group relative"
               >
@@ -1170,7 +1168,7 @@ export default function Home() {
                   className="absolute -inset-1 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg"
                   style={{
                     backgroundColor: `${tool.color}30`,
-                    willChange: 'opacity' // Optimize for animations
+                    willChange: 'opacity'
                   }}
                 />
                 
@@ -1187,21 +1185,28 @@ export default function Home() {
                       transition: 'transform 0.3s ease'
                     }}
                   >
-                    {/* Render appropriate icon based on tool name */}
-                    {tool.name === 'Docker' && <Container className="w-10 h-10" style={{ color: tool.color }} />}
-                    {tool.name === 'Kubernetes' && <Database className="w-10 h-10" style={{ color: tool.color }} />}
-                    {tool.name === 'AWS' && <Cloud className="w-10 h-10" style={{ color: tool.color }} />}
-                    {tool.name === 'Jenkins' && <GitBranch className="w-10 h-10" style={{ color: tool.color }} />}
-                    {tool.name === 'Terraform' && <Server className="w-10 h-10" style={{ color: tool.color }} />}
-                    {tool.name === 'Ansible' && <Shield className="w-10 h-10" style={{ color: tool.color }} />}
-                    {tool.name === 'GitHub Actions' && <Github className="w-10 h-10" style={{ color: tool.color }} />}
-                    {tool.name === 'Maven' && <Package className="w-10 h-10" style={{ color: tool.color }} />}
-                    {tool.name === 'Nexus' && <Layers className="w-10 h-10" style={{ color: tool.color }} />}
-                    {tool.name === 'Linux' && <Terminal className="w-10 h-10" style={{ color: tool.color }} />}
-                    {tool.name === 'Git' && <GitBranch className="w-10 h-10" style={{ color: tool.color }} />}
-                    {tool.name === 'Bash' && <Code2 className="w-10 h-10" style={{ color: tool.color }} />}
+                    {/* DevIcon logo */}
+                    <img
+                      src={`https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${
+                        tool.name.toLowerCase()
+                          .replace(' ', '')
+                          .replace('githubactions', 'github')
+                      }/${
+                        tool.name.toLowerCase()
+                          .replace(' ', '')
+                          .replace('githubactions', 'github')
+                      }-original.svg`}
+                      alt={tool.name}
+                      className="w-10 h-10"
+                      onError={(e) => {
+                        // Fallback to plain-wordmark if original fails
+                        const target = e.target as HTMLImageElement;
+                        const fallbackName = tool.name.toLowerCase().replace(' ', '').replace('githubactions', 'github');
+                        target.src = `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${fallbackName}/${fallbackName}-plain.svg`;
+                      }}
+                    />
                     
-                    {/* Status indicator - no complex animations */}
+                    {/* Status indicator */}
                     <div
                       className="absolute -top-1 -right-1 w-3 h-3 rounded-full"
                       style={{ 
@@ -1221,6 +1226,18 @@ export default function Home() {
                   >
                     {tool.name}
                   </span>
+                  
+                  {/* Tooltip on hover */}
+                  <div className="absolute bottom-full mb-3 w-48 text-xs text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-50">
+                    <div className="glass p-3 rounded-xl border border-border shadow-2xl">
+                      <span className="font-semibold block mb-1" style={{ color: tool.color }}>
+                        {tool.name}
+                      </span>
+                      <span className="text-muted-foreground leading-snug">
+                        {tool.desc}
+                      </span>
+                    </div>
+                  </div>
                   
                   {/* Bottom accent line */}
                   <div
@@ -1243,7 +1260,7 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
           >
-            Hover to highlight • Tap for details
+            Hover or tap a tool to see its purpose
           </motion.p>
         </div>
       </section>
