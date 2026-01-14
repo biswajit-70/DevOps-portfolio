@@ -486,15 +486,15 @@ const AnimatedPhotoFrame = ({ profileImage }: { profileImage: string }) => {
                 />
               </svg>
 
-              {/* CI/CD STAGES */}
+              {/* CI/CD STAGES - Improved positioning along infinity path */}
               {[
-                { label: "PLAN", icon: "📋", x: 90, y: 60, color: "#06b6d4" },
-                { label: "CODE", icon: "💻", x: 150, y: 40, color: "#3b82f6" },
-                { label: "BUILD", icon: "🔨", x: 180, y: 110, color: "#8b5cf6" },
-                { label: "TEST", icon: "🧪", x: 150, y: 180, color: "#ec4899" },
-                { label: "RELEASE", icon: "📦", x: 240, y: 40, color: "#f97316" },
-                { label: "DEPLOY", icon: "🚀", x: 300, y: 110, color: "#eab308" },
-                { label: "OPERATE", icon: "⚙️", x: 240, y: 180, color: "#22c55e" }
+                { label: "PLAN", icon: "📋", x: 100, y: 70, color: "#06b6d4" },
+                { label: "CODE", icon: "💻", x: 160, y: 50, color: "#3b82f6" },
+                { label: "BUILD", icon: "🔨", x: 190, y: 110, color: "#8b5cf6" },
+                { label: "TEST", icon: "🧪", x: 160, y: 170, color: "#ec4899" },
+                { label: "RELEASE", icon: "📦", x: 230, y: 50, color: "#f97316" },
+                { label: "DEPLOY", icon: "🚀", x: 290, y: 110, color: "#eab308" },
+                { label: "OPERATE", icon: "⚙️", x: 230, y: 170, color: "#22c55e" }
               ].map((stage, index) => (
                 <motion.div
                   key={stage.label}
