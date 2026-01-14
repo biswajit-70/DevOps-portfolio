@@ -460,7 +460,7 @@ const AnimatedPhotoFrame = ({ profileImage }: { profileImage: string }) => {
                 
                 {/* Outer glow */}
                 <motion.path
-                  d="M 80 100 C 80 50, 50 30, 80 30 C 120 30, 140 70, 200 100 C 260 130, 280 170, 320 170 C 350 170, 320 150, 320 100 C 320 50, 350 30, 320 30 C 280 30, 260 70, 200 100 C 140 130, 120 170, 80 170 C 50 170, 80 150, 80 100 Z"
+                  d="M200,100 C200,154.9 154.9,200 100,200 C45.1,200 0,154.9 0,100 C0,45.1 45.1,0 100,0 C154.9,0 200,45.1 200,100 Z M300,100 C300,154.9 254.9,200 200,200 C145.1,200 100,154.9 100,100 C100,45.1 145.1,0 200,0 C254.9,0 300,45.1 300,100 Z"
                   fill="none"
                   stroke="url(#infinityGradient)"
                   strokeWidth="12"
@@ -471,7 +471,7 @@ const AnimatedPhotoFrame = ({ profileImage }: { profileImage: string }) => {
                 
                 {/* Main infinity path - animated stroke */}
                 <motion.path
-                  d="M 80 100 C 80 50, 50 30, 80 30 C 120 30, 140 70, 200 100 C 260 130, 280 170, 320 170 C 350 170, 320 150, 320 100 C 320 50, 350 30, 320 30 C 280 30, 260 70, 200 100 C 140 130, 120 170, 80 170 C 50 170, 80 150, 80 100 Z"
+                  d="M200,100 C200,154.9 154.9,200 100,200 C45.1,200 0,154.9 0,100 C0,45.1 45.1,0 100,0 C154.9,0 200,45.1 200,100 Z M300,100 C300,154.9 254.9,200 200,200 C145.1,200 100,154.9 100,100 C100,45.1 145.1,0 200,0 C254.9,0 300,45.1 300,100 Z"
                   fill="none"
                   stroke="url(#infinityGradient)"
                   strokeWidth="8"
@@ -485,7 +485,7 @@ const AnimatedPhotoFrame = ({ profileImage }: { profileImage: string }) => {
                 
                 {/* Inner highlight */}
                 <motion.path
-                  d="M 80 100 C 80 50, 50 30, 80 30 C 120 30, 140 70, 200 100 C 260 130, 280 170, 320 170 C 350 170, 320 150, 320 100 C 320 50, 350 30, 320 30 C 280 30, 260 70, 200 100 C 140 130, 120 170, 80 170 C 50 170, 80 150, 80 100 Z"
+                  d="M200,100 C200,154.9 154.9,200 100,200 C45.1,200 0,154.9 0,100 C0,45.1 45.1,0 100,0 C154.9,0 200,45.1 200,100 Z M300,100 C300,154.9 254.9,200 200,200 C145.1,200 100,154.9 100,100 C100,45.1 145.1,0 200,0 C254.9,0 300,45.1 300,100 Z"
                   fill="none"
                   stroke="#ffffff"
                   strokeWidth="3"
@@ -507,7 +507,7 @@ const AnimatedPhotoFrame = ({ profileImage }: { profileImage: string }) => {
                 { label: 'DEPLOY', angle: 257, color: '#eab308', icon: '🚀' },
                 { label: 'OPERATE', angle: 308.4, color: '#22c55e', icon: '⚙️' },
               ].map((stage, index) => {
-                const radius = 180;
+                const radius = 120;
                 const centerX = 200;
                 const centerY = 100;
                 const radian = (stage.angle * Math.PI) / 180;
@@ -584,7 +584,7 @@ const AnimatedPhotoFrame = ({ profileImage }: { profileImage: string }) => {
                 }}
                 transition={{ duration: 4, repeat: Infinity, repeatDelay: 0.5 }}
               >
-                <h3 className="text-6xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent drop-shadow-2xl mb-2">
+                <h3 className="text-5xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent drop-shadow-2xl mb-2">
                   DevOps
                 </h3>
                 <motion.p 
@@ -609,8 +609,8 @@ const AnimatedPhotoFrame = ({ profileImage }: { profileImage: string }) => {
                   top: '50%',
                 }}
                 animate={{
-                  x: [0, 100, 200, 300, 200, 100, 0, -100, -200, -100, 0],
-                  y: [0, -50, -30, 0, 70, 70, 0, 70, -30, -50, 0],
+                  x: [0, 100, 200, 100, 0, -100, -200, -100, 0],
+                  y: [0, 50, 0, -50, 0, 50, 0, -50, 0],
                   scale: [1, 1.2, 1, 1.2, 1],
                   opacity: [0.5, 1, 0.8, 1, 0.5]
                 }}
